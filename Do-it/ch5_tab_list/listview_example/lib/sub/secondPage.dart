@@ -55,39 +55,91 @@ class _SecondApp extends State<SecondApp> {
               ],
             ),
             // 동물 이미지 선택
-            Row(children: <Widget>[
-              GestureDetector(
-                child: Image.asset('repo/images/cow.png', width: 80),
-                onTap: () {
-                  _imagePath = 'repo/images/cow.png';
-                },
+            Container(
+              height: 100,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: <Widget>[
+                  GestureDetector(
+                    child: Image.asset('repo/images/cow.png', width: 80),
+                    onTap: () {
+                      _imagePath = 'repo/images/cow.png';
+                    },
+                  ),
+                  GestureDetector(
+                    child: Image.asset('repo/images/pig.png', width: 80),
+                    onTap: () {
+                      _imagePath = 'repo/images/pig.png';
+                    },
+                  ),
+                  GestureDetector(
+                    child: Image.asset('repo/images/bee.png', width: 80),
+                    onTap: () {
+                      _imagePath = 'repo/images/bee.png';
+                    },
+                  ),
+                  GestureDetector(
+                    child: Image.asset('repo/images/cat.png', width: 80),
+                    onTap: () {
+                      _imagePath = 'repo/images/cat.png';
+                    },
+                  ),
+                  GestureDetector(
+                    child: Image.asset('repo/images/dog.png', width: 80),
+                    onTap: () {
+                      _imagePath = 'repo/images/dog.png';
+                    },
+                  ),
+                  GestureDetector(
+                    child: Image.asset('repo/images/fox.png', width: 80),
+                    onTap: () {
+                      _imagePath = 'repo/images/fox.png';
+                    },
+                  ),
+                  GestureDetector(
+                    child: Image.asset('repo/images/monkey.png', width: 80),
+                    onTap: () {
+                      _imagePath = 'repo/images/monkey.png';
+                    },
+                  ),
+                ],
               ),
-              GestureDetector(
-                child: Image.asset('repo/images/pig.png', width: 80),
-                onTap: () {
-                  _imagePath = 'repo/images/pig.png';
-                },
-              ),
-              GestureDetector(
-                child: Image.asset('repo/images/bee.png', width: 80),
-                onTap: () {
-                  _imagePath = 'repo/images/bee.png';
-                },
-              ),
-              GestureDetector(
-                child: Image.asset('repo/images/cat.png', width: 80),
-                onTap: () {
-                  _imagePath = 'repo/images/cat.png';
-                },
-              ),
-              GestureDetector(
-                child: Image.asset('repo/images/dog.png', width: 80),
-                onTap: () {
-                  _imagePath = 'repo/images/dog.png';
-                },
-              ),
-            ], mainAxisAlignment: MainAxisAlignment.spaceAround),
-            ElevatedButton(child: Text('동물 추가하기'), onPressed: () {}),
+            ),
+            ElevatedButton(
+                child: Text('동물 추가하기'),
+                onPressed: () {
+                  var animal = Animal(
+                      animalName: nameController.value.text,
+                      kind: getKind(_radioValue),
+                      imagePath: _imagePath,
+                      flyExist: flyExist);
+                  AlertDialog dialog = AlertDialog(
+                    title: Text('동물 추가하기'),
+                    content: Text(
+                      '이 동물은 ${animal.animalName} 입니다.'
+                      '또 동물의 종류는 ${animal.kind} 입니다.\n이 동물을 추가하시겠습니까?',
+                      style: TextStyle(fontSize: 30.0),
+                    ),
+                    actions: [
+                      ElevatedButton(
+                        onPressed: () {
+                          widget.list?.add(animal);
+                          Navigator.of(context).pop();
+                        },
+                        child: Text('예'),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text('아니요'),
+                      ),
+                    ],
+                  );
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) => dialog);
+                }),
           ],
         )),
       ),
@@ -98,5 +150,16 @@ class _SecondApp extends State<SecondApp> {
     setState(() {
       _radioValue = value;
     });
+  }
+
+  getKind(int? radioValue) {
+    switch (radioValue) {
+      case 0:
+        return "양서류";
+      case 1:
+        return "파충류";
+      case 2:
+        return "포유류";
+    }
   }
 }
